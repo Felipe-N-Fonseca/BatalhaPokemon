@@ -77,11 +77,8 @@ class pokemonPlanta extends Pokemon{ // Classe do pokemon planta que tem vantage
 
 public class BatalhaPokemon{ // Classe onde ocorrerá o verdadeiro código do jogo.
   public static void main(String[] args){
-    // Definindo os argumentos aleatórios
+    // Definindo os argumentos aleatórios.
     String[] nome = {"Pikachu", "Charmander", "Bulbassauro", "Squirtle", "Caterpie", "Rattata", "Pidgey", "Zubat", "Nidoran"};
-    int[] nivel = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int[] VidaMax = {100, 200, 150, 80, 450, 300, 250, 400, 500};
-    int Acao;
     
     Pokemon pokemon1;
     Pokemon pokemon2;
@@ -89,23 +86,31 @@ public class BatalhaPokemon{ // Classe onde ocorrerá o verdadeiro código do jo
     int Tipo2 = Aleatorio.GeraNoLimite(3);
     while(Tipo2 == Tipo1)Tipo2 = Aleatorio.GeraNoLimite(3);
     
-    // definindo o tipo dos pokemons
-    if(Tipo1 == 0)pokemon1 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], nivel[Aleatorio.GeraNoLimite(9)], VidaMax[Aleatorio.GeraNoLimite(9)]);
-    else if(Tipo1 == 1)pokemon1 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], nivel[Aleatorio.GeraNoLimite(9)], VidaMax[Aleatorio.GeraNoLimite(9)]);
-    else pokemon1 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], nivel[Aleatorio.GeraNoLimite(9)], VidaMax[Aleatorio.GeraNoLimite(9)]);
+    // definindo o tipo dos pokemons e inicializando os mesmos.
+    if(Tipo1 == 0)pokemon1 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+    else if(Tipo1 == 1)pokemon1 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+    else pokemon1 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
 
-    if(Tipo2 == 0)pokemon2 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], nivel[Aleatorio.GeraNoLimite(9)], VidaMax[Aleatorio.GeraNoLimite(9)]);
-    else if(Tipo2 == 1)pokemon2 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], nivel[Aleatorio.GeraNoLimite(9)], VidaMax[Aleatorio.GeraNoLimite(9)]);
-    else pokemon2 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], nivel[Aleatorio.GeraNoLimite(9)], VidaMax[Aleatorio.GeraNoLimite(9)]);
+    if(Tipo2 == 0)pokemon2 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+    else if(Tipo2 == 1)pokemon2 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+    else pokemon2 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+
+    Pokemon Escolha = pokemon1;
+    Pokemon Espera = pokemon2;
+    Pokemon aux;
 
     // Batalha
     while(pokemon1.estaVivo() && pokemon2.estaVivo()){
-      Pokemon Escolha = pokemon1;
-      Pokemon Espera = pokemon2;
-      
-      Acao = Aleatorio.GeraNoLimite(2);
-      if(Acao == 0)Escolha.Atacar(Espera);
-      else pokemon1.RecuperaHP();
+      if(Aleatorio.GeraNoLimite(100) < 12){ // Escolhe com base numa porcenagem, a chance que o pokemon da vez tem de ser curado aleatóriamente.
+        Escolha.RecuperaHP();
+      }
+
+      Escolha.Atacar(Espera); // Iniciado o ataque contra o oponente.
+
+      // Troca da vez
+      aux = Escolha;
+      Escolha = Espera;
+      Espera = aux;
     }
     
   }
