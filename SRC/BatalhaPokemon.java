@@ -1,15 +1,9 @@
 import java.util.Random;
 
-class Aleatorio {
-  public static int GeraAleatorio() {
-      Random random = new Random();
-      int limiteSuperior = 100; 
-      return random.nextInt(limiteSuperior);
-  }
-  
+class Aleatorio { // Gera um número aleatório de 0 até o limite - 1.
   public static int GeraNoLimite(int Limite) {
       Random random = new Random();
-      return random.nextInt(Limite);
+      return random.nextInt(Limite); 
   }
 }
 
@@ -17,36 +11,36 @@ abstract class Pokemon {
   String Nome;
   int Nivel, HP, VidaMax;
 
-  public Pokemon(String nome, int nivel, int VidaMax){
+  public Pokemon(String nome, int nivel, int VidaMax){ // Construtor.
     this.Nome = nome;
     this.Nivel = nivel;
     this.HP = VidaMax;
     this.VidaMax = VidaMax;
   }
 
-  public abstract void Atacar(Pokemon pokemon);
+  public abstract void Atacar(Pokemon pokemon); // Metodo que será implementado dentro das classes herdeiras.
   
-  public void RecebeDano(int dano){
+  public void RecebeDano(int dano){ // Tira vida do pokemon atacado.
     if(HP - dano <= 0)HP = 0;
     else HP -= dano;
   }
 
-  public void RecuperaHP(){
-    int Porcentagem = Aleatorio.GeraAleatorio();
+  public void RecuperaHP(){  // Restaura uma porcentagem da vida do pokemon escolhido.
+    int Porcentagem = Aleatorio.GeraNoLimite(100)+1; // Gera um número aleatório de 1 até 100 para definir a porcentagem de vida que será curada.
     RecuperaHP(VidaMax * Porcentagem / 100);
   }
   
-  public void RecuperaHP(int quantidade){
+  public void RecuperaHP(int quantidade){ // Restaura a vida do pokemon escolhido.
     if(HP + quantidade >= VidaMax) HP = VidaMax;
     else HP += quantidade;
   }
 
-  public Boolean estaVivo(){
+  public Boolean estaVivo(){ // Verifica se o pokemon está vivo.
     return HP > 0;
   }
 }
 
-class pokemonAgua extends Pokemon{
+class pokemonAgua extends Pokemon{ // Classe do pokemon agua que tem vantagem contra o pokemon fogo.
   public pokemonAgua(String nome, int nivel, int VidaMax) {
 		super(nome, nivel, VidaMax);
 	}
@@ -58,7 +52,7 @@ class pokemonAgua extends Pokemon{
 
 }
 
-class pokemonFogo extends Pokemon{
+class pokemonFogo extends Pokemon{ // Classe do pokemon fogo que tem vantagem contra o pokemon planta.
   public pokemonFogo(String nome, int nivel, int VidaMax) {
 		super(nome, nivel, VidaMax);
 	}
@@ -69,7 +63,7 @@ class pokemonFogo extends Pokemon{
   }
 }
 
-class pokemonPlanta extends Pokemon{
+class pokemonPlanta extends Pokemon{ // Classe do pokemon planta que tem vantagem contra o pokemon agua.
   public pokemonPlanta(String nome, int nivel, int VidaMax) {
 		super(nome, nivel, VidaMax);
 	}
@@ -80,7 +74,8 @@ class pokemonPlanta extends Pokemon{
   }
 }
 
-public class BatalhaPokemon{
+
+public class BatalhaPokemon{ // Classe onde ocorrerá o verdadeiro código do jogo.
   public static void main(String[] args){
     // Definindo os argumentos aleatórios
     String[] nome = {"Pikachu", "Charmander", "Bulbassauro", "Squirtle", "Caterpie", "Rattata", "Pidgey", "Zubat", "Nidoran"};
