@@ -7,12 +7,21 @@ class Aleatorio { // Gera um número aleatório de 0 até o limite - 1.
   }
 }
 
+class centralizador{ // Centralza os caracteres no texto do menu.
+  public static String centralizaTexto(String Texto, int Largura) {
+    int EspacosEsquerda = (Largura - Texto.length()) / 2;
+    int EspacosDireita = Largura - Texto.length() - EspacosEsquerda;
+    return " ".repeat(EspacosEsquerda) + Texto + " ".repeat(EspacosDireita);
+  }
+}
+
 abstract class Pokemon {
-  String Nome;
+  String Nome, Tipo;
   int Nivel, HP, VidaMax;
 
-  public Pokemon(String nome, int nivel, int VidaMax){ // Construtor.
+  public Pokemon(String nome, int nivel, int VidaMax, String tipo){ // Construtor.
     this.Nome = nome;
+    this.Tipo = tipo;
     this.Nivel = nivel;
     this.HP = VidaMax;
     this.VidaMax = VidaMax;
@@ -25,9 +34,10 @@ abstract class Pokemon {
     else HP -= dano;
   }
 
-  public void RecuperaHP(){  // Restaura uma porcentagem da vida do pokemon escolhido.
+  public int RecuperaHP(){  // Restaura uma porcentagem da vida do pokemon escolhido.
     int Porcentagem = Aleatorio.GeraNoLimite(100)+1; // Gera um número aleatório de 1 até 100 para definir a porcentagem de vida que será curada.
     RecuperaHP(VidaMax * Porcentagem / 100);
+    return Porcentagem;
   }
   
   public void RecuperaHP(int quantidade){ // Restaura a vida do pokemon escolhido.
@@ -41,8 +51,8 @@ abstract class Pokemon {
 }
 
 class pokemonAgua extends Pokemon{ // Classe do pokemon agua que tem vantagem contra o pokemon fogo.
-  public pokemonAgua(String nome, int nivel, int VidaMax) {
-		super(nome, nivel, VidaMax);
+  public pokemonAgua(String nome, int nivel, int VidaMax, String tipo) {
+		super(nome, nivel, VidaMax, tipo);
 	}
 
   public void Atacar(Pokemon pokemon){
@@ -53,8 +63,8 @@ class pokemonAgua extends Pokemon{ // Classe do pokemon agua que tem vantagem co
 }
 
 class pokemonFogo extends Pokemon{ // Classe do pokemon fogo que tem vantagem contra o pokemon planta.
-  public pokemonFogo(String nome, int nivel, int VidaMax) {
-		super(nome, nivel, VidaMax);
+  public pokemonFogo(String nome, int nivel, int VidaMax, String tipo) {
+		super(nome, nivel, VidaMax, tipo);
 	}
 
   public void Atacar(Pokemon pokemon){
@@ -64,8 +74,8 @@ class pokemonFogo extends Pokemon{ // Classe do pokemon fogo que tem vantagem co
 }
 
 class pokemonPlanta extends Pokemon{ // Classe do pokemon planta que tem vantagem contra o pokemon agua.
-  public pokemonPlanta(String nome, int nivel, int VidaMax) {
-		super(nome, nivel, VidaMax);
+  public pokemonPlanta(String nome, int nivel, int VidaMax, String tipo) {
+		super(nome, nivel, VidaMax, tipo);
 	}
 
   public void Atacar(Pokemon pokemon){
@@ -80,38 +90,81 @@ public class BatalhaPokemon{ // Classe onde ocorrerá o verdadeiro código do jo
     // Definindo os argumentos aleatórios.
     String[] nome = {"Pikachu", "Charmander", "Bulbassauro", "Squirtle", "Caterpie", "Rattata", "Pidgey", "Zubat", "Nidoran"};
     
-    Pokemon pokemon1;
-    Pokemon pokemon2;
+    Pokemon pokemon1, pokemon2;
     int Tipo1 = Aleatorio.GeraNoLimite(3);
     int Tipo2 = Aleatorio.GeraNoLimite(3);
     while(Tipo2 == Tipo1)Tipo2 = Aleatorio.GeraNoLimite(3);
     
     // definindo o tipo dos pokemons e inicializando os mesmos.
-    if(Tipo1 == 0)pokemon1 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
-    else if(Tipo1 == 1)pokemon1 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
-    else pokemon1 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+    if(Tipo1 == 0)pokemon1 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1, "Agua");
+    else if(Tipo1 == 1)pokemon1 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1, "Fogo");
+    else pokemon1 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1, "Planta");
 
-    if(Tipo2 == 0)pokemon2 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
-    else if(Tipo2 == 1)pokemon2 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
-    else pokemon2 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1);
+    if(Tipo2 == 0)pokemon2 = new pokemonAgua(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1, "Agua");
+    else if(Tipo2 == 1)pokemon2 = new pokemonFogo(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1, "Fogo");
+    else pokemon2 = new pokemonPlanta(nome[Aleatorio.GeraNoLimite(9)], Aleatorio.GeraNoLimite(10)+1, Aleatorio.GeraNoLimite(901)+1, "Planta");
 
     Pokemon Escolha = pokemon1;
     Pokemon Espera = pokemon2;
     Pokemon aux;
+    int Cont = 0;
+    int Tam2Colunas = 48; // Tamanho de uma coluna em uma tabela dividida em 2.
+    int Tam1Coluna = 97; // Tamanho de uma coluna em uma tabela completa.
 
     // Batalha
+    System.out.println();
+    System.out.println("+-------------------------------------------------------------------------------------------------+");
+    System.out.println("|" + centralizador.centralizaTexto("BATALHA POKEMON", Tam1Coluna) + "|");
+    System.out.println("+------------------------------------------------+------------------------------------------------+");
+    System.out.println("|" + centralizador.centralizaTexto("POKEMON ATACANDO", Tam2Colunas) + "|"  + centralizador.centralizaTexto("POKEMON DEFENDENDO", Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("NOME: " + Escolha.Nome, Tam2Colunas) + "|"  + centralizador.centralizaTexto("NOME: " + Espera.Nome, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("NIVEL: " + Escolha.Nivel, Tam2Colunas) + "|"  + centralizador.centralizaTexto("NIVEL: " + Espera.Nivel, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("TIPO: " + Escolha.Tipo, Tam2Colunas) + "|"  + centralizador.centralizaTexto("TIPO: " + Espera.Tipo, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("HP INICIAL: " + Escolha.VidaMax, Tam2Colunas) + "|"  + centralizador.centralizaTexto("HP INICIAL: " + Espera.VidaMax, Tam2Colunas) + "|");
+    System.out.println("+------------------------------------------------+------------------------------------------------+");
+
     while(pokemon1.estaVivo() && pokemon2.estaVivo()){
       if(Aleatorio.GeraNoLimite(100) < 12){ // Escolhe com base numa porcenagem, a chance que o pokemon da vez tem de ser curado aleatóriamente.
-        Escolha.RecuperaHP();
+        System.out.println("+------------------------------------------------+------------------------------------------------+");
+        System.out.println("|" + centralizador.centralizaTexto("Pokemon " + Escolha.Nome + " recebeu " + Escolha.RecuperaHP() + "% de cura", Tam1Coluna) + "|");
+        System.out.println("+------------------------------------------------+------------------------------------------------+");
+
       }
 
       Escolha.Atacar(Espera); // Iniciado o ataque contra o oponente.
 
-      // Troca da vez
+      // Exibe as informações durante o decorrer da Batalha.
+      System.out.println("|" + centralizador.centralizaTexto("ROUND " + ++Cont, Tam1Coluna) + "|");
+      System.out.println("+------------------------------------------------+------------------------------------------------+");
+      System.out.println("|" + centralizador.centralizaTexto("POKEMON ATACANDO", Tam2Colunas) + "|"  + centralizador.centralizaTexto("POKEMON DEFENDENDO", Tam2Colunas) + "|");
+      System.out.println("|" + centralizador.centralizaTexto("NOME: " + Escolha.Nome, Tam2Colunas) + "|"  + centralizador.centralizaTexto("NOME: " + Espera.Nome, Tam2Colunas) + "|");
+      System.out.println("|" + centralizador.centralizaTexto("HP: " + Escolha.HP, Tam2Colunas) + "|"  + centralizador.centralizaTexto("HP: " + Espera.HP, Tam2Colunas) + "|");
+      System.out.println("+------------------------------------------------+------------------------------------------------+");
+      
+      
+      // Troca da vez.
       aux = Escolha;
       Escolha = Espera;
       Espera = aux;
     }
+
+    // Troca final.
+    aux = Escolha;
+    Escolha = Espera;
+    Espera = aux;
+
+    // Exibe as informações ao fim da Batalha.
+    System.out.println("|" + centralizador.centralizaTexto("BATALHA FINALIZADA", Tam1Coluna) + "|");
+    System.out.println("+------------------------------------------------+------------------------------------------------+");
+    System.out.println("|" + centralizador.centralizaTexto("POKEMON VENCEDOR", Tam2Colunas) + "|"  + centralizador.centralizaTexto("POKEMON PERDEDOR", Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("NOME: " + Escolha.Nome, Tam2Colunas) + "|"  + centralizador.centralizaTexto("NOME: " + Espera.Nome, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("NIVEL: " + Escolha.Nivel, Tam2Colunas) + "|"  + centralizador.centralizaTexto("NIVEL: " + Espera.Nivel, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("TIPO: " + Escolha.Tipo, Tam2Colunas) + "|"  + centralizador.centralizaTexto("TIPO: " + Espera.Tipo, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("HP INICIAL: " + Escolha.VidaMax, Tam2Colunas) + "|"  + centralizador.centralizaTexto("HP INICIAL: " + Espera.VidaMax, Tam2Colunas) + "|");
+    System.out.println("|" + centralizador.centralizaTexto("HP FINAL: " + Escolha.HP, Tam2Colunas) + "|"  + centralizador.centralizaTexto("HP FINAL: " + Espera.HP, Tam2Colunas) + "|");
+    System.out.println("+------------------------------------------------+------------------------------------------------+");
+    System.out.println("|" + centralizador.centralizaTexto("NÚMERO DE RONDS:" + ++Cont, Tam1Coluna) + "|");
+    System.out.println("+------------------------------------------------+------------------------------------------------+");
     
   }
   
